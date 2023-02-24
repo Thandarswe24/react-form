@@ -27,6 +27,29 @@ export class Form extends Component {
             })
         }
 
+        handelCheckBox = (event) => {
+            const {value, checked}= event.target;
+            const {learningType}= this.state;
+
+            if (checked) {
+                this.setState({
+                    learningType: [...learningType, value],
+                }
+                )
+            } else {
+                this.setState({
+                    learningType:learningType.filter((e) => e !== value)
+                })
+                
+            }
+        }
+
+        handelSubmit = (event) => {
+            event.preventDefault();
+            alert("Successfully!✨");
+            console.log("Checkout State", this.state);
+        }
+
     
     
   render() {
@@ -44,7 +67,7 @@ export class Form extends Component {
     return (
         
       <div  className='bgStyle'>
-            <form action="">
+            <form action="" onSubmit={this.handelSubmit}>
 
                 <div   className='formStyle'>
 
@@ -103,7 +126,7 @@ export class Form extends Component {
                                      onChange={this.handelChange}  >
 
                                 {frameworks.map((e) => (
-                                        <option >{e.value}</option>
+                                        <option key={e.id}>{e.value}</option>
                                     ))
                                 }
                             </select>
@@ -139,10 +162,11 @@ export class Form extends Component {
                                         (e) => (
                                         <div  key={e.id}  className='wrapperInner'  >
                                         <input type="checkbox" 
-                                        name="learningType"
-                                        defaultChecked={learningType && learningType.includes(e.name)}
+                                        name={e.name}
                                         value={e.name}
-                                        onChange={this.handelChange}/> <label htmlFor="" className='label'>{e.name}</label>
+                                        defaultChecked={learningType && learningType.includes(e.name)}
+                                        onChange={this.handelCheckBox}/> 
+                                        <label htmlFor="" className='label'>{e.name}</label>
                                         </div>
                                         )
                                     )
